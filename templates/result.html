@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Analysis Result | NeuroScan AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        /* ================= RESULT PAGE ================= */
+
+        .result-page {
+            padding: 55px 0 70px;
+        }
+
+
+        .result-header {
+            text-align: center;
+
+            margin-bottom: 35px;
+        }
+
+
+        .result-header .badge {
+            margin-bottom: 14px;
+        }
+
+
+        .result-header h2 {
+            font-size: 34px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .result-header p {
+            color: #718096;
+
+            font-size: 14px;
+        }
+
+
+        /* ================= RESULT GRID ================= */
+
+        .result-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 25px;
+
+            align-items: stretch;
+        }
+
+
+        .result-card {
+            background: white;
+
+            border: 1px solid #e5eaf0;
+
+            border-radius: 18px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 15px 45px
+                rgba(32, 52, 73, 0.07);
+        }
+
+
+        /* ================= MRI IMAGE ================= */
+
+        .image-card h3,
+        .prediction-card h3 {
+            font-size: 18px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .mri-container {
+            width: 100%;
+
+            height: 350px;
+
+            background: #111827;
+
+            border-radius: 14px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            overflow: hidden;
+        }
+
+
+        .mri-container img {
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: contain;
+        }
+
+
+        .image-label {
+            margin-top: 12px;
+
+            color: #7b8798;
+
+            font-size: 12px;
+
+            text-align: center;
+        }
+
+
+        /* ================= PREDICTION ================= */
+
+        .prediction-status {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 20px;
+
+            border-radius: 14px;
+
+            background: #f5f8fb;
+
+            margin-bottom: 28px;
+        }
+
+
+        .prediction-icon {
+            width: 55px;
+
+            height: 55px;
+
+            min-width: 55px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+
+            font-weight: bold;
+        }
+
+
+        .prediction-icon.tumor {
+            background: #fff0f0;
+
+            color: #d64545;
+        }
+
+
+        .prediction-icon.healthy {
+            background: #eaf8ef;
+
+            color: #219653;
+        }
+
+
+        .prediction-status small {
+            display: block;
+
+            color: #7b8798;
+
+            font-size: 12px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .prediction-status strong {
+            font-size: 25px;
+        }
+
+
+        .tumor-text {
+            color: #d64545;
+        }
+
+
+        .healthy-text {
+            color: #219653;
+        }
+
+
+        /* ================= CONFIDENCE ================= */
+
+        .confidence-section {
+            margin-bottom: 28px;
+        }
+
+
+        .confidence-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 10px;
+        }
+
+
+        .confidence-header span:first-child {
+            font-size: 13px;
+
+            color: #596579;
+        }
+
+
+        .confidence-value {
+            font-size: 17px;
+
+            font-weight: bold;
+
+            color: #172033;
+        }
+
+
+        .confidence-bar {
+            width: 100%;
+
+            height: 10px;
+
+            background: #e8edf3;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+
+        .confidence-fill {
+            height: 100%;
+
+            width: 0%;
+
+            border-radius: 20px;
+
+            transition:
+                width 1.2s ease;
+        }
+
+
+        .confidence-fill.tumor {
+            background: #d64545;
+        }
+
+
+        .confidence-fill.healthy {
+            background: #219653;
+        }
+
+
+        /* ================= EXPLANATION ================= */
+
+        .explanation {
+            padding: 18px;
+
+            background: #f4f8fd;
+
+            border-radius: 12px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .explanation strong {
+            display: block;
+
+            font-size: 13px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .explanation p {
+            color: #6f7c8e;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+        }
+
+
+        /* ================= BUTTON ================= */
+
+        .another-btn {
+            width: 100%;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 10px;
+
+            text-decoration: none;
+
+            background: #1976d2;
+
+            color: white;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+
+        .another-btn:hover {
+            background: #125da8;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* ================= DISCLAIMER ================= */
+
+        .result-disclaimer {
+            margin-top: 25px;
+
+            display: flex;
+
+            gap: 13px;
+
+            padding: 18px;
+
+            background: #fffaf0;
+
+            border: 1px solid #f2dfb1;
+
+            border-radius: 12px;
+        }
+
+
+        .result-disclaimer-icon {
+            width: 28px;
+
+            height: 28px;
+
+            min-width: 28px;
+
+            border-radius: 50%;
+
+            background: #f5b942;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: bold;
+        }
+
+
+        .result-disclaimer strong {
+            font-size: 12px;
+        }
+
+
+        .result-disclaimer p {
+            color: #806f4d;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+
+            margin-top: 4px;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 800px) {
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .mri-container {
+                height: 300px;
+            }
+
+        }
+
+
+        @media (max-width: 480px) {
+
+            .result-page {
+                padding-top: 35px;
+            }
+
+
+            .result-header h2 {
+                font-size: 27px;
+            }
+
+
+            .result-card {
+                padding: 20px;
+            }
+
+
+            .mri-container {
+                height: 250px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="navbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🧠
+            </div>
+
+            <div>
+
+                <h1>NeuroScan AI</h1>
+
+                <span>
+                    Brain MRI Analysis
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="status">
+
+            <span class="status-dot"></span>
+
+            <span>
+                AI System Online
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container result-page">
+
+
+        <!-- HEADER -->
+
+        <div class="result-header">
+
+            <div class="badge">
+                ANALYSIS COMPLETED
+            </div>
+
+            <h2>
+                MRI Analysis Result
+            </h2>
+
+            <p>
+                Your uploaded MRI image has been processed
+                by the NeuroScan AI model.
+            </p>
+
+        </div>
+
+
+        <!-- RESULT GRID -->
+
+        <div class="result-grid">
+
+
+            <!-- ================= IMAGE ================= -->
+
+            <div class="result-card image-card">
+
+                <h3>
+                    MRI Scan
+                </h3>
+
+
+                <div class="mri-container">
+
+                    <img
+                        src="{{ url_for('static', filename=image) }}"
+                        alt="Uploaded MRI scan"
+                    >
+
+                </div>
+
+
+                <div class="image-label">
+
+                    Uploaded MRI image
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= PREDICTION ================= -->
+
+            <div class="result-card prediction-card">
+
+                <h3>
+                    Model Prediction
+                </h3>
+
+
+                <!-- STATUS -->
+
+                <div class="prediction-status">
+
+                    {% if is_tumor %}
+
+                        <div class="prediction-icon tumor">
+                            !
+                        </div>
+
+                        <div>
+
+                            <small>
+                                Predicted classification
+                            </small>
+
+                            <strong class="tumor-text">
+                                {{ result|capitalize }} tumor
+                            </strong>
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="prediction-icon healthy">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <small>
+                                Predicted classification
+                            </small>
+
+                            <strong class="healthy-text">
+                                No tumor detected
+                            </strong>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- CONFIDENCE -->
+
+                <div class="confidence-section">
+
+                    <div class="confidence-header">
+
+                        <span>
+                            Model Confidence
+                        </span>
+
+                        <span class="confidence-value">
+                            {{ "%.2f"|format(confidence) }}%
+                        </span>
+
+                    </div>
+
+
+                    <div class="confidence-bar">
+
+                        <div
+                            class="confidence-fill {% if is_tumor %}tumor{% else %}healthy{% endif %}"
+                            id="confidenceFill">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EXPLANATION -->
+
+                <div class="explanation">
+
+                    <strong>
+                        What does this mean?
+                    </strong>
+
+                    {% if is_tumor %}
+
+                        <p>
+                            The trained machine learning model
+                            detected image patterns that are
+                            associated with the {{ result }} tumor
+                            class in
+                            its training data.
+                        </p>
+
+                    {% else %}
+
+                        <p>
+                            The trained machine learning model
+                            classified this image as having no tumor
+                            based on
+                            patterns learned during training.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- ACTION -->
+
+                <a href="/"
+                   class="another-btn">
+
+                    ← Analyze Another MRI
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= DISCLAIMER ================= -->
+
+        <div class="result-disclaimer">
+
+            <div class="result-disclaimer-icon">
+                !
+            </div>
+
+            <div>
+
+                <strong>
+                    Important Medical Disclaimer
+                </strong>
+
+                <p>
+                    NeuroScan AI is an educational and research
+                    project. The displayed prediction and
+                    confidence score are outputs of a machine
+                    learning model and are not a medical diagnosis.
+                    Always consult a qualified healthcare
+                    professional for medical interpretation.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            © 2026 NeuroScan AI
+        </p>
+
+        <span>
+            Machine Learning • Medical Imaging • AI
+        </span>
+
+    </footer>
+
+
+    <!-- ================= CONFIDENCE ANIMATION ================= -->
+
+    <script>
+
+        window.addEventListener("load", function () {
+
+            const confidenceFill =
+                document.getElementById(
+                    "confidenceFill"
+                );
+
+            const confidence =
+                {{ confidence }};
+
+
+            setTimeout(function () {
+
+                confidenceFill.style.width =
+                    confidence + "%";
+
+            }, 300);
+
+        });
+
+    </script>
+
+
+</body>
+
+</html>

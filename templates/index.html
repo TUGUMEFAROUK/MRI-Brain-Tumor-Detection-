@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>NeuroScan AI | Brain MRI Analysis</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="navbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🧠
+            </div>
+
+            <div>
+                <h1>NeuroScan AI</h1>
+                <span>Brain MRI Analysis</span>
+            </div>
+
+        </div>
+
+        <div class="status">
+
+            <span class="status-dot"></span>
+
+            <span>AI System Online</span>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container">
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <div class="badge">
+                    AI-POWERED MRI ANALYSIS
+                </div>
+
+                <h2>
+                    Intelligent Brain MRI
+                    <span>Analysis</span>
+                </h2>
+
+                <p>
+                    Upload a brain MRI scan and let our machine
+                    learning model analyze the image for patterns
+                    associated with brain tumors.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ANALYSIS CARD ================= -->
+
+        <section class="analysis-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h3>Analyze MRI Scan</h3>
+
+                    <p>
+                        Upload a clear brain MRI image in
+                        JPG, JPEG, or PNG format.
+                    </p>
+
+                </div>
+
+                <div class="scan-icon">
+                    ✦
+                </div>
+
+            </div>
+
+
+            <!-- UPLOAD FORM -->
+
+            <form action="/predict"
+                  method="POST"
+                  enctype="multipart/form-data"
+                  id="uploadForm">
+
+
+                <!-- DROPZONE -->
+
+                <div class="drop-zone"
+                     id="dropZone">
+
+                    <input
+                        type="file"
+                        name="image"
+                        id="imageInput"
+                        accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                        required
+                    >
+
+                    <div class="upload-content"
+                         id="uploadContent">
+
+                        <div class="upload-icon">
+                            ↑
+                        </div>
+
+                        <h4>
+                            Upload MRI Image
+                        </h4>
+
+                        <p>
+                            Drag & drop your image here
+                        </p>
+
+                        <span>
+                            or
+                        </span>
+
+                        <button type="button"
+                                class="browse-btn"
+                                id="browseButton">
+
+                            Browse Files
+
+                        </button>
+
+                        <small>
+                            JPG, JPEG or PNG • Maximum 10MB
+                        </small>
+
+                    </div>
+
+
+                    <!-- IMAGE PREVIEW -->
+
+                    <div class="preview-container"
+                         id="previewContainer">
+
+                        <img id="imagePreview"
+                             src=""
+                             alt="MRI Preview">
+
+                        <div class="preview-info">
+
+                            <strong id="fileName">
+                                MRI Image
+                            </strong>
+
+                            <span id="fileSize">
+                                0 KB
+                            </span>
+
+                        </div>
+
+                        <button type="button"
+                                class="remove-btn"
+                                id="removeButton">
+
+                            Remove Image
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ANALYZE BUTTON -->
+
+                <button type="submit"
+                        class="analyze-btn"
+                        id="analyzeButton">
+
+                    <span id="buttonText">
+                        Analyze MRI Scan
+                    </span>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+                <!-- LOADING -->
+
+                <div class="loading"
+                     id="loading">
+
+                    <div class="spinner"></div>
+
+                    <div>
+
+                        <strong>
+                            Analyzing MRI scan...
+                        </strong>
+
+                        <p>
+                            Please wait while the AI model
+                            processes the image.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- ================= HOW IT WORKS ================= -->
+
+        <section class="how-section">
+
+            <div class="section-title">
+
+                <span>PROCESS</span>
+
+                <h3>
+                    How NeuroScan AI Works
+                </h3>
+
+            </div>
+
+
+            <div class="steps">
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        01
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Upload Scan
+                        </h4>
+
+                        <p>
+                            Upload a brain MRI image
+                            through the secure interface.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        02
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            AI Processing
+                        </h4>
+
+                        <p>
+                            The trained CNN model processes
+                            and analyzes the MRI image.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        03
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Model Prediction
+                        </h4>
+
+                        <p>
+                            The system provides a predicted
+                            classification and confidence score.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= DISCLAIMER ================= -->
+
+        <section class="disclaimer">
+
+            <div class="warning-icon">
+                !
+            </div>
+
+            <div>
+
+                <strong>
+                    Important Notice
+                </strong>
+
+                <p>
+                    This application is intended for
+                    educational and research purposes only.
+                    The AI prediction is not a medical diagnosis
+                    and should not replace evaluation by a
+                    qualified healthcare professional.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            © 2026 NeuroScan AI
+        </p>
+
+        <span>
+            Machine Learning • Medical Imaging • AI
+        </span>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        const imageInput =
+            document.getElementById("imageInput");
+
+        const dropZone =
+            document.getElementById("dropZone");
+
+        const browseButton =
+            document.getElementById("browseButton");
+
+        const previewContainer =
+            document.getElementById("previewContainer");
+
+        const uploadContent =
+            document.getElementById("uploadContent");
+
+        const imagePreview =
+            document.getElementById("imagePreview");
+
+        const fileName =
+            document.getElementById("fileName");
+
+        const fileSize =
+            document.getElementById("fileSize");
+
+        const removeButton =
+            document.getElementById("removeButton");
+
+        const uploadForm =
+            document.getElementById("uploadForm");
+
+        const analyzeButton =
+            document.getElementById("analyzeButton");
+
+        const loading =
+            document.getElementById("loading");
+
+
+        // ================= BROWSE =================
+
+        browseButton.addEventListener("click", function () {
+
+            imageInput.click();
+
+        });
+
+
+        // ================= FILE SELECT =================
+
+        imageInput.addEventListener("change", function () {
+
+            if (this.files.length > 0) {
+
+                handleFile(this.files[0]);
+
+            }
+
+        });
+
+
+        // ================= HANDLE FILE =================
+
+        function handleFile(file) {
+
+            const allowedTypes = [
+                "image/jpeg",
+                "image/png"
+            ];
+
+            if (!allowedTypes.includes(file.type)) {
+
+                alert(
+                    "Please upload a JPG, JPEG or PNG image."
+                );
+
+                imageInput.value = "";
+
+                return;
+
+            }
+
+
+            // 10MB limit
+
+            if (file.size > 10 * 1024 * 1024) {
+
+                alert(
+                    "The image must be smaller than 10MB."
+                );
+
+                imageInput.value = "";
+
+                return;
+
+            }
+
+
+            const reader = new FileReader();
+
+
+            reader.onload = function (event) {
+
+                imagePreview.src =
+                    event.target.result;
+
+                fileName.textContent =
+                    file.name;
+
+                fileSize.textContent =
+                    formatFileSize(file.size);
+
+
+                uploadContent.style.display =
+                    "none";
+
+                previewContainer.style.display =
+                    "flex";
+
+            };
+
+
+            reader.readAsDataURL(file);
+
+        }
+
+
+        // ================= FORMAT FILE SIZE =================
+
+        function formatFileSize(bytes) {
+
+            if (bytes < 1024) {
+
+                return bytes + " Bytes";
+
+            }
+
+            if (bytes < 1024 * 1024) {
+
+                return (
+                    (bytes / 1024).toFixed(1)
+                    + " KB"
+                );
+
+            }
+
+            return (
+                (bytes / (1024 * 1024)).toFixed(1)
+                + " MB"
+            );
+
+        }
+
+
+        // ================= REMOVE =================
+
+        removeButton.addEventListener("click", function () {
+
+            imageInput.value = "";
+
+            imagePreview.src = "";
+
+            previewContainer.style.display =
+                "none";
+
+            uploadContent.style.display =
+                "flex";
+
+        });
+
+
+        // ================= DRAG OVER =================
+
+        dropZone.addEventListener("dragover", function (event) {
+
+            event.preventDefault();
+
+            dropZone.classList.add("dragging");
+
+        });
+
+
+        // ================= DRAG LEAVE =================
+
+        dropZone.addEventListener("dragleave", function () {
+
+            dropZone.classList.remove("dragging");
+
+        });
+
+
+        // ================= DROP =================
+
+        dropZone.addEventListener("drop", function (event) {
+
+            event.preventDefault();
+
+            dropZone.classList.remove("dragging");
+
+
+            const files =
+                event.dataTransfer.files;
+
+
+            if (files.length > 0) {
+
+                imageInput.files = files;
+
+                handleFile(files[0]);
+
+            }
+
+        });
+
+
+        // ================= FORM SUBMIT =================
+
+        uploadForm.addEventListener("submit", function () {
+
+            analyzeButton.disabled = true;
+
+            analyzeButton.style.display =
+                "none";
+
+            loading.style.display =
+                "flex";
+
+        });
+
+    </script>
+
+</body>
+
+</html>
