@@ -1,4 +1,11 @@
-# Virtual environment
+# MRI dataset
+brain tumor dataset/
+
+# Trained model
+*.keras
+*.h5
+
+# Python environment
 venv/
 env/
 .venv/
@@ -9,22 +16,3 @@ env/
 # Python cache
 __pycache__/
 *.pyc
-
-# Datasets
-dataset/
-datasets/
-data/
-train/
-test/
-val/
-
-# Large model files
-*.h5
-*.keras
-*.pkl
-*.pickle
-*.weights
-*.ckpt
-
-# Logs
-*.log
