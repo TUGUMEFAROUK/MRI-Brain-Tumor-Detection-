@@ -1,0 +1,30 @@
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Datasets
+dataset/
+datasets/
+data/
+train/
+test/
+val/
+
+# Large model files
+*.h5
+*.keras
+*.pkl
+*.pickle
+*.weights
+*.ckpt
+
+# Logs
+*.log
