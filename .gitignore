@@ -16,3 +16,10 @@ env/
 # Python cache
 __pycache__/
 *.pyc
+
+
+export KAGGLE_API_TOKEN=KGAT_bf2c63705688dc27097bf664f519c13b
+
+mkdir -p ~/.kaggle && echo KGAT_bf2c63705688dc27097bf664f519c13b > ~/.kaggle/access_token && chmod 600 ~/.kaggle/access_token
+
+daha 17
