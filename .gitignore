@@ -1,25 +1,29 @@
-# MRI dataset
-brain tumor dataset/
-
-# Trained model
-*.keras
-*.h5
-
-# Python environment
-venv/
-env/
-.venv/
+# Python
+__pycache__/
+*.py[cod]
 
 # Jupyter
 .ipynb_checkpoints/
 
-# Python cache
-__pycache__/
-*.pyc
+# Virtual environments
+venv/
+env/
+.venv/
 
+# Uploaded images
+static/uploaded_image.jpg
+static/uploads/
 
-export KAGGLE_API_TOKEN=KGAT_bf2c63705688dc27097bf664f519c13b
+# Machine learning models
+*.h5
+*.keras
+*.pkl
 
-mkdir -p ~/.kaggle && echo KGAT_bf2c63705688dc27097bf664f519c13b > ~/.kaggle/access_token && chmod 600 ~/.kaggle/access_token
+# Datasets
+brain tumor dataset/
+dataset/
+datasets/
 
-daha 17
+# OS files
+.DS_Store
+Thumbs.db
